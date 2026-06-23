@@ -2,21 +2,29 @@ CREATE DATABASE IF NOT EXISTS atividade_crud;
 
 USE atividade_crud;
 
-DROP TABLE IF EXISTS usuario;
-
-CREATE TABLE usuario (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  curso VARCHAR(100) NOT NULL,
-  periodo VARCHAR(30) NOT NULL,
-  ativo TINYINT(1) DEFAULT 1,
-  receber_noticias TINYINT(1) DEFAULT 0,
-  tecnologias VARCHAR(255)
+CREATE TABLE produto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    preco_custo DECIMAL(10, 2) DEFAULT 0.00,
+    preco_venda DECIMAL(10, 2) DEFAULT 0.00,
+    estoque_atual INT DEFAULT 0,
+    estoque_minimo INT DEFAULT 0,
+    categoria VARCHAR(50),
+    unidade_medida VARCHAR(30),
+    ativo TINYINT(1) DEFAULT 1
 );
 
-INSERT INTO usuario
-(nome, email, curso, periodo, ativo, receber_noticias, tecnologias)
+INSERT INTO produto 
+(nome, descricao, preco_custo, preco_venda, estoque_atual, estoque_minimo, categoria, unidade_medida, ativo)
 VALUES
-('Maria Silva', 'maria@email.com', 'Técnico em Informática', 'Matutino', 1, 1, 'HTML, CSS'),
-('João Souza', 'joao@email.com', 'Desenvolvimento de Sistemas', 'Noturno', 1, 0, 'JavaScript, Node.js');
+('Café', 'Café moído caixa 500g extra forte', 10.50, 15.00, 2, 5, 'bebida', 'caixa', 1),
+('Arroz Integral', 'Arroz tipo 1 pacote 5kg', 18.20, 24.90, 15, 4, 'alimento', 'peça', 1),
+('Feijão Carioca', 'Feijão carioca pacote 1kg', 5.10, 7.80, 20, 5, 'alimento', 'kg', 1),
+('Refrigerante Cola', 'Lata 350ml original', 2.10, 4.50, 48, 12, 'bebida', 'unidade', 1),
+('Detergente Neutro', 'Frasco líquido 500ml', 1.30, 2.20, 3, 10, 'limpeza', 'unidade', 1),
+('Sabão em Pó', 'Caixa 1kg perfume floral', 9.80, 14.50, 8, 3, 'limpeza', 'caixa', 1),
+('Água Mineral', 'Garrafa sem gás 500ml', 0.60, 2.00, 100, 24, 'bebida', 'unidade', 1),
+('Azeite de Oliva', 'Vidro 500ml extra virgem', 22.00, 35.90, 1, 3, 'alimento', 'unidade', 1),
+('Papel Toalha', 'Pacote com 2 rolos duplos', 3.40, 5.50, 12, 6, 'outro', 'unidade', 1),
+('Esponja de Aço', 'Pacote com 4 unidades', 1.80, 3.10, 0, 5, 'limpeza', 'duzia', 1);

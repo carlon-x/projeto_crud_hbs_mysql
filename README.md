@@ -7,19 +7,19 @@ Este projeto é um exemplo didático de CRUD com interface gráfica usando **Nod
 ```text
 projeto_crud/
 ├── controllers/
-│   └── usuarioController.js
+│   └── produtoController.js
 ├── models/
-│   └── Usuario.js
+│   └── Produto.js
 ├── public/
 │   └── css/
 │       └── style.css
 ├── routes/
-│   └── usuarioRoutes.js
+│   └── produtoRoutes.js
 ├── views/
 │   ├── partials/
 │   │   ├── header.hbs
 │   │   └── footer.hbs
-│   ├── usuarios/
+│   ├── produtos/
 │   │   ├── form.hbs
 │   │   └── index.hbs
 │   └── erro.hbs
