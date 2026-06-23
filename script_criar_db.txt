@@ -1,0 +1,22 @@
+CREATE DATABASE IF NOT EXISTS atividade_crud;
+
+USE atividade_crud;
+
+DROP TABLE IF EXISTS usuario;
+
+CREATE TABLE usuario (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  curso VARCHAR(100) NOT NULL,
+  periodo VARCHAR(30) NOT NULL,
+  ativo TINYINT(1) DEFAULT 1,
+  receber_noticias TINYINT(1) DEFAULT 0,
+  tecnologias VARCHAR(255)
+);
+
+INSERT INTO usuario
+(nome, email, curso, periodo, ativo, receber_noticias, tecnologias)
+VALUES
+('Maria Silva', 'maria@email.com', 'Técnico em Informática', 'Matutino', 1, 1, 'HTML, CSS'),
+('João Souza', 'joao@email.com', 'Desenvolvimento de Sistemas', 'Noturno', 1, 0, 'JavaScript, Node.js');

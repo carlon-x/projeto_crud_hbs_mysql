@@ -1,0 +1,81 @@
+{{> header}}
+
+<section class="cabecalho-pagina">
+  <div>
+    <h2>{{titulo}}</h2>
+    <p>Cadastre, visualize, edite e exclua usuários registrados no banco de dados.</p>
+  </div>
+  <a href="/usuarios/novo" class="botao botao-primario">Cadastrar usuário</a>
+</section>
+
+{{#if mensagem}}
+  <div class="alerta sucesso">{{mensagem}}</div>
+{{/if}}
+
+{{#if erro}}
+  <div class="alerta erro">{{erro}}</div>
+{{/if}}
+
+<section class="card">
+  <div class="tabela-responsiva">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Curso</th>
+          <th>Período</th>
+          <th>Ativo</th>
+          <th>Tecnologias</th>
+          <th class="coluna-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each usuarios}}
+          <tr>
+            <td>{{id}}</td>
+            <td>{{nome}}</td>
+            <td>{{email}}</td>
+            <td>{{curso}}</td>
+            <td>{{periodo}}</td>
+            <td>{{ativoTexto}}</td>
+            <td>{{tecnologiasTexto}}</td>
+            <td class="acoes">
+              <a href="/usuarios/{{id}}/editar" class="botao botao-secundario">Editar</a>
+
+              <label for="modal-excluir-{{id}}" class="botao botao-perigo">Excluir</label>
+              <input type="checkbox" id="modal-excluir-{{id}}" class="modal-controle">
+
+              <div class="modal-css" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-{{id}}">
+                <label for="modal-excluir-{{id}}" class="modal-camada"></label>
+
+                <div class="modal">
+                  <h3 id="titulo-modal-{{id}}">Confirmar exclusão</h3>
+                  <p>
+                    Deseja realmente excluir o usuário <strong>{{nome}}</strong>?
+                  </p>
+                  <p class="modal-aviso">Esta ação removerá o registro do banco de dados.</p>
+
+                  <div class="modal-acoes">
+                    <label for="modal-excluir-{{id}}" class="botao botao-secundario">Cancelar</label>
+
+                    <form action="/usuarios/{{id}}/excluir" method="POST">
+                      <button type="submit" class="botao botao-perigo">Confirmar exclusão</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="8" class="sem-registros">Nenhum usuário cadastrado.</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{{> footer}}

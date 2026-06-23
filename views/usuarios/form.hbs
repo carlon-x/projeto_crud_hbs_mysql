@@ -1,0 +1,116 @@
+{{> header}}
+
+<section class="cabecalho-pagina">
+  <div>
+    <h2>{{titulo}}</h2>
+    <p>Preencha os dados do usuário para registrar as informações no sistema.</p>
+  </div>
+  <a href="/usuarios" class="botao botao-secundario">Voltar</a>
+</section>
+
+{{#if erro}}
+  <div class="alerta erro">{{erro}}</div>
+{{/if}}
+
+<section class="card formulario-card">
+  <form action="{{acao}}" method="POST" class="formulario">
+    <div class="campo">
+      <label for="nome">Nome</label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        value="{{usuario.nome}}"
+        placeholder="Digite o nome do usuário"
+        required
+      >
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="{{usuario.email}}"
+        placeholder="Digite o e-mail do usuário"
+        required
+      >
+    </div>
+
+    <div class="campo">
+      <label for="curso">Curso</label>
+      <select id="curso" name="curso" required>
+        <option value="">Selecione um curso</option>
+        <option value="Técnico em Informática" {{selecionado usuario.curso "Técnico em Informática"}}>Técnico em Informática</option>
+        <option value="Técnico em Informática para Internet" {{selecionado usuario.curso "Técnico em Informática para Internet"}}>Técnico em Informática para Internet</option>
+        <option value="Ciência da Computação" {{selecionado usuario.curso "Ciência da Computação"}}>Ciência da Computação</option>
+        <option value="Desenvolvimento de Sistemas" {{selecionado usuario.curso "Desenvolvimento de Sistemas"}}>Desenvolvimento de Sistemas</option>
+      </select>
+    </div>
+
+    <fieldset class="grupo-opcoes">
+      <legend>Período</legend>
+
+      <label>
+        <input type="radio" name="periodo" value="Matutino" {{radioMarcado usuario.periodo "Matutino"}} required>
+        Matutino
+      </label>
+
+      <label>
+        <input type="radio" name="periodo" value="Vespertino" {{radioMarcado usuario.periodo "Vespertino"}}>
+        Vespertino
+      </label>
+
+      <label>
+        <input type="radio" name="periodo" value="Noturno" {{radioMarcado usuario.periodo "Noturno"}}>
+        Noturno
+      </label>
+    </fieldset>
+
+    <fieldset class="grupo-opcoes">
+      <legend>Tecnologias de interesse</legend>
+
+      <label>
+        <input type="checkbox" name="tecnologias" value="HTML" {{checkboxListaMarcado usuario.tecnologias "HTML"}}>
+        HTML
+      </label>
+
+      <label>
+        <input type="checkbox" name="tecnologias" value="CSS" {{checkboxListaMarcado usuario.tecnologias "CSS"}}>
+        CSS
+      </label>
+
+      <label>
+        <input type="checkbox" name="tecnologias" value="JavaScript" {{checkboxListaMarcado usuario.tecnologias "JavaScript"}}>
+        JavaScript
+      </label>
+
+      <label>
+        <input type="checkbox" name="tecnologias" value="Node.js" {{checkboxListaMarcado usuario.tecnologias "Node.js"}}>
+        Node.js
+      </label>
+    </fieldset>
+
+    <fieldset class="grupo-opcoes">
+      <legend>Situação e comunicação</legend>
+
+      <label>
+        <input type="checkbox" name="ativo" value="1" {{checkboxMarcado usuario.ativo}}>
+        Usuário ativo
+      </label>
+
+      <label>
+        <input type="checkbox" name="receber_noticias" value="1" {{checkboxMarcado usuario.receber_noticias}}>
+        Receber notícias por e-mail
+      </label>
+    </fieldset>
+
+    <div class="botoes-formulario">
+      <button type="submit" class="botao botao-primario">{{textoBotao}}</button>
+      <a href="/usuarios" class="botao botao-secundario">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+{{> footer}}
