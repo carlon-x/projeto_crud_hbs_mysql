@@ -1,0 +1,154 @@
+{{> header}}
+
+<section class="cabecalho-pagina">
+  <div>
+    <h2>{{titulo}}</h2>
+    <p>Preencha os dados do produto para atualizar o estoque do sistema.</p>
+  </div>
+  <a href="/produtos" class="botao botao-secundario">Voltar</a>
+</section>
+
+{{#if erro}}
+  <div class="alerta erro">{{erro}}</div>
+{{/if}}
+
+<section class="card formulario-card">
+  <form action="{{acao}}" method="POST" class="formulario">
+    
+    <!-- Nome do Produto -->
+    <div class="campo">
+      <label for="nome">Nome do Produto</label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        value="{{produto.nome}}"
+        placeholder="Ex: Teclado Mecânico RGB"
+        required
+      >
+    </div>
+
+    <!-- Descrição -->
+    <div class="campo">
+      <label for="descricao">Descrição / Detalhes</label>
+      <textarea 
+        id="descricao" 
+        name="descricao" 
+        placeholder="Digite detalhes sobre o produto (opcional)"
+        rows="3"
+      >{{produto.descricao}}</textarea>
+    </div>
+
+    <!-- Preços (Custo e Venda) em Linha -->
+    <div class="linha-campos">
+      <div class="campo">
+        <label for="preco_custo">Preço de Custo (R$)</label>
+        <input
+          type="number"
+          id="preco_custo"
+          name="preco_custo"
+          step="0.01"
+          min="0"
+          value="{{produto.preco_custo}}"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label for="preco_venda">Preço de Venda (R$)</label>
+        <input
+          type="number"
+          id="preco_venda"
+          name="preco_venda"
+          step="0.01"
+          min="0"
+          value="{{produto.preco_venda}}"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- Estoques em Linha -->
+    <div class="linha-campos">
+      <div class="campo">
+        <label for="estoque_atual">Estoque Atual</label>
+        <input
+          type="number"
+          id="estoque_atual"
+          name="estoque_atual"
+          min="0"
+          value="{{produto.estoque_atual}}"
+          required
+        >
+      </div>
+
+      <div class="campo">
+        <label for="estoque_minimo">Estoque Mínimo (Alerta)</label>
+        <input
+          type="number"
+          id="estoque_minimo"
+          name="estoque_minimo"
+          min="0"
+          value="{{produto.estoque_minimo}}"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- Unidade de Medida (Dropdown) -->
+    <div class="campo">
+      <label for="unidade_medida">Unidade de Medida</label>
+      <select id="unidade_medida" name="unidade_medida" required>
+        <option value="">Selecione a unidade</option>
+        <option value="un" {{selecionado produto.unidade_medida "un"}}>Unidade (un)</option>
+        <option value="kg" {{selecionado produto.unidade_medida "kg"}}>Quilograma (kg)</option>
+        <option value="cx" {{selecionado produto.unidade_medida "cx"}}>Caixa (cx)</option>
+        <option value="pct" {{selecionado produto.unidade_medida "pct"}}>Pacote (pct)</option>
+        <option value="litro" {{selecionado produto.unidade_medida "litro"}}>Litro (l)</option>
+      </select>
+    </div>
+
+    <!-- Categoria (Botões de Rádio) -->
+    <fieldset class="grupo-opcoes">
+      <legend>Categoria do Produto</legend>
+
+      <label>
+        <input type="radio" name="categoria" value="eletronicos" {{radioMarcado produto.categoria "eletronicos"}} required>
+        Eletrônicos
+      </label>
+
+      <label>
+        <input type="radio" name="categoria" value="alimentos" {{radioMarcado produto.categoria "alimentos"}}>
+        Alimentos
+      </label>
+
+      <label>
+        <input type="radio" name="categoria" value="vestuario" {{radioMarcado produto.categoria "vestuario"}}>
+        Vestuário
+      </label>
+
+      <label>
+        <input type="radio" name="categoria" value="outros" {{radioMarcado produto.categoria "outros"}}>
+        Outros
+      </label>
+    </fieldset>
+
+    <!-- Situação do Produto -->
+    <fieldset class="grupo-opcoes">
+      <legend>Disponibilidade</legend>
+
+      <label>
+        <input type="checkbox" name="ativo" value="1" {{checkboxMarcado produto.ativo}}>
+        Produto ativo para venda
+      </label>
+    </fieldset>
+
+    <!-- Botões de Ação -->
+    <div class="botoes-formulario">
+      <button type="submit" class="botao botao-primario">{{textoBotao}}</button>
+      <a href="/produtos" class="botao botao-secundario">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+{{> footer}}

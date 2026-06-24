@@ -1,0 +1,93 @@
+{{> header}}
+
+<section class="cabecalho-pagina">
+  <div>
+    <h2>{{titulo}}</h2>
+    <p>Cadastre, visualize, edite e controle o estoque de produtos registrados no banco de dados.</p>
+  </div>
+  <a href="/produtos/novo" class="botao botao-primario">Novo produto</a>
+</section>
+
+{{#if mensagem}}
+  <div class="alerta sucesso">{{mensagem}}</div>
+{{/if}}
+
+{{#if erro}}
+  <div class="alerta erro">{{erro}}</div>
+{{/if}}
+
+<section class="card">
+  <div class="tabela-responsiva">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome do Produto</th>
+          <th>Categoria</th>
+          <th>Preço Custo</th>
+          <th>Preço Venda</th>
+          <th>Estoque Atual</th>
+          <th>Ativo</th>
+          <th class="coluna-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each produtos}}
+          <!-- O modelo possui o campo 'ativo' (0 ou 1). Se for 0 (inativo), aplica a classe visual -->
+          <tr class="{{#unless this.ativo}}produto-inativo{{/unless}}">
+            <td>{{id}}</td>
+            <td>
+              <strong>{{nome}}</strong>
+              {{#if descricao}}<br><small class="texto-mutado">{{descricao}}</small>{{/if}}
+            </td>
+            <td><span class="etiqueta-categoria">{{categoriaTexto}}</span></td>
+            <td>{{precoCustoFormatado}}</td>
+            <td>{{precoVendaFormatado}}</td>
+            <td>
+              <!-- Usa a string já formatada pelo controlador (Ex: "10 un") -->
+              <strong>{{estoqueTexto}}</strong>
+              <br>
+              <!-- O statusEstoque traz '⚠️ Estoque Baixo' ou '✅ Regular' direto do controlador -->
+              <small class="status-estoque">{{statusEstoque}}</small>
+            </td>
+            <td>{{ativoTexto}}</td>
+            <td class="acoes">
+              <a href="/produtos/{{id}}/editar" class="botao botao-secundario">Editar</a>
+
+              <!-- Gatilho do Modal de Exclusão usando CSS baseado no ID do modelo -->
+              <label for="modal-excluir-{{id}}" class="botao botao-perigo">Excluir</label>
+              <input type="checkbox" id="modal-excluir-{{id}}" class="modal-controle">
+
+              <!-- Estrutura do Modal CSS -->
+              <div class="modal-css" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-{{id}}">
+                <label for="modal-excluir-{{id}}" class="modal-camada"></label>
+
+                <div class="modal">
+                  <h3 id="titulo-modal-{{id}}">Confirmar exclusão</h3>
+                  <p>
+                    Deseja realmente remover o produto <strong>{{nome}}</strong> do estoque?
+                  </p>
+                  <p class="modal-aviso">Esta ação removerá o registro definitivamente do banco de dados.</p>
+
+                  <div class="modal-acoes">
+                    <label for="modal-excluir-{{id}}" class="botao botao-secundario">Cancelar</label>
+
+                    <form action="/produtos/{{id}}/excluir" method="POST">
+                      <button type="submit" class="botao botao-perigo">Confirmar exclusão</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="8" class="sem-registros">Nenhum produto cadastrado no estoque.</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{{> footer}}

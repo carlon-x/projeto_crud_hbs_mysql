@@ -1,6 +1,6 @@
 # Projeto CRUD simples com Node.js, Express, MySQL e HBS
 
-Este projeto é um exemplo didático de CRUD com interface gráfica usando **Node.js**, **Express**, **MySQL** e **HBS**.
+Este projeto é um exemplo didático de CRUD de estoque com interface gráfica usando **Node.js**, **Express**, **MySQL** e **HBS**.
 
 ## Estrutura do projeto
 
@@ -11,6 +11,7 @@ projeto_crud/
 ├── models/
 │   └── Produto.js
 ├── public/
+    └── Imagem/    
 │   └── css/
 │       └── style.css
 ├── routes/
@@ -25,7 +26,6 @@ projeto_crud/
 │   └── erro.hbs
 ├── db.js
 ├── script_criar_db.txt
-├── script_atualizar_tabela.txt
 ├── server.js
 ├── .env
 ├── .npmrc
@@ -46,7 +46,7 @@ npm install
 script_criar_db.txt
 ```
 
-Esse script cria o banco `atividade_crud`, cria a tabela `usuario` e insere dois registros de exemplo.
+Esse script cria o banco de dados `atividade_crud`, cria a tabela `produto` com as colunas de estoque e insere registros de exemplo.
 
 3. Confira as configurações do banco no arquivo `.env`:
 
@@ -54,7 +54,7 @@ Esse script cria o banco `atividade_crud`, cria a tabela `usuario` e insere dois
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
-DB_NAME=atividade_crud
+DB_NAME=seu_banco_de_dados
 DB_PORT=3306
 ```
 
@@ -67,42 +67,45 @@ npm start
 5. Acesse no navegador:
 
 ```text
-http://localhost:3000/usuarios
+http://localhost:3000/produtos
 ```
 
-## Campos da tabela `usuario`
+## Campos da tabela `produto`
 
 ```text
 id
 nome
-email
-curso
-periodo
+descricao
+preco_custo
+preco_venda
+estoque_atual
+estoque_minimo
+categoria
+unidade_medida
 ativo
-receber_noticias
-tecnologias
 ```
 
-O formulário possui exemplos de diferentes componentes HTML:
+O formulário possui exemplos de diferentes componentes HTML adaptados para o estoque:
 
 ```text
-input text      -> nome
-input email     -> e-mail
-select          -> curso
-radio           -> período
-checkbox        -> tecnologias, usuário ativo e receber notícias
+input text      -> nome do produto
+textarea        -> descrição / detalhes
+input number    -> preços (custo/venda) e estoques (atual/mínimo)
+select          -> unidade de medida (un, kg, cx, pct, litro)
+radio           -> categoria do produto
+checkbox        -> disponibilidade (produto ativo para venda)
 ```
 
 ## Rotas da interface HBS
 
 | Método | Rota | Função |
 |---|---|---|
-| GET | `/usuarios` | Lista os usuários |
-| GET | `/usuarios/novo` | Abre o formulário de cadastro |
-| POST | `/usuarios` | Cadastra um usuário |
-| GET | `/usuarios/:id/editar` | Abre o formulário de edição |
-| POST | `/usuarios/:id/atualizar` | Atualiza um usuário |
-| POST | `/usuarios/:id/excluir` | Exclui um usuário |
+| GET | `/produtos` | Lista os produtos do estoque |
+| GET | `/produtos/novo` | Abre o formulário de cadastro |
+| POST | `/produtos` | Adiciona um produto ao estoque |
+| GET | `/produtos/:id/editar` | Abre o formulário de edição |
+| POST | `/produtos/:id/atualizar` | Atualiza as informações do produto |
+| POST | `/produtos/:id/excluir` | Remove o produto do estoque |
 
 ## Observação sobre `PUT` e `DELETE`
 
@@ -115,17 +118,3 @@ Essa escolha facilita o entendimento inicial de rotas, controllers, models, view
 O modal de confirmação de exclusão foi feito apenas com **HTML e CSS**, sem JavaScript.
 
 Ele usa um `checkbox` oculto para abrir e fechar a janela de confirmação. Dessa forma, o aluno consegue estudar o comportamento visual do modal sem precisar adicionar lógica JavaScript ao projeto.
-
-## Banco já existente
-
-Se você já criou a versão anterior da tabela `usuario`, pode usar o arquivo abaixo para adicionar os novos campos:
-
-```text
-script_atualizar_tabela.txt
-```
-
-Se estiver começando do zero, use apenas o arquivo:
-
-```text
-script_criar_db.txt
-```

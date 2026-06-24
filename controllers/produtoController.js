@@ -1,4 +1,4 @@
-const Produto = require('../models/PAREI AQUI Produto');
+const Produto = require('../models/Produto');
 
 // Organiza e converte os dados vindos do formulário HTML
 function montarDadosProduto(body) {
@@ -25,11 +25,7 @@ function validarProduto(dadosProduto) {
     return 'Os preços de custo e venda não podem ser valores negativos.';
   }
 
-  if (dadosProduto.preco_venda < dadosProduto.preco_custo) {
-    return 'Alerta: O preço de venda é menor que o preço de custo (prejuízo).';
-  }
-
-  if (dadosProduto.estoque_atual < 0 || dadosProduto.estoque_minimo < 0) {
+   if (dadosProduto.estoque_atual < 0 || dadosProduto.estoque_minimo < 0) {
     return 'As quantidades de estoque não podem ser negativas.';
   }
 

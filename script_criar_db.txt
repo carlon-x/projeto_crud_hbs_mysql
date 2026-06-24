@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS atividade_crud;
+CREATE DATABASE atividade_crud;
 
 USE atividade_crud;
 
@@ -18,13 +18,23 @@ CREATE TABLE produto (
 INSERT INTO produto 
 (nome, descricao, preco_custo, preco_venda, estoque_atual, estoque_minimo, categoria, unidade_medida, ativo)
 VALUES
-('Café', 'Café moído caixa 500g extra forte', 10.50, 15.00, 2, 5, 'bebida', 'caixa', 1),
-('Arroz Integral', 'Arroz tipo 1 pacote 5kg', 18.20, 24.90, 15, 4, 'alimento', 'peça', 1),
-('Feijão Carioca', 'Feijão carioca pacote 1kg', 5.10, 7.80, 20, 5, 'alimento', 'kg', 1),
-('Refrigerante Cola', 'Lata 350ml original', 2.10, 4.50, 48, 12, 'bebida', 'unidade', 1),
-('Detergente Neutro', 'Frasco líquido 500ml', 1.30, 2.20, 3, 10, 'limpeza', 'unidade', 1),
-('Sabão em Pó', 'Caixa 1kg perfume floral', 9.80, 14.50, 8, 3, 'limpeza', 'caixa', 1),
-('Água Mineral', 'Garrafa sem gás 500ml', 0.60, 2.00, 100, 24, 'bebida', 'unidade', 1),
-('Azeite de Oliva', 'Vidro 500ml extra virgem', 22.00, 35.90, 1, 3, 'alimento', 'unidade', 1),
-('Papel Toalha', 'Pacote com 2 rolos duplos', 3.40, 5.50, 12, 6, 'outro', 'unidade', 1),
-('Esponja de Aço', 'Pacote com 4 unidades', 1.80, 3.10, 0, 5, 'limpeza', 'duzia', 1);
+-- Testando Categoria: eletronicos | Unidades: un, cx
+('Mouse Gamer Wireless', 'Mouse óptico 16000 DPI com bateria recarregável', 85.00, 149.90, 12, 5, 'eletronicos', 'un', 1),
+('Cabo HDMI 2.1', 'Cabo de alta velocidade 2 metros 8K', 15.50, 32.00, 25, 10, 'eletronicos', 'un', 1),
+('Lote Lâmpadas Smart WiFi', 'Caixa master contendo 10 unidades de lâmpadas LED RGB', 120.00, 249.00, 4, 2, 'eletronicos', 'cx', 1),
+
+-- Testando Categoria: alimentos | Unidades: kg, pct, cx, litro
+('Arroz Integral', 'Arroz tipo 1 agulhinha pacote de 5kg', 18.20, 24.90, 15, 4, 'alimentos', 'pct', 1),
+('Feijão Carioca', 'Feijão carioca tipo 1 saco de 1kg', 5.10, 7.80, 20, 5, 'alimentos', 'kg', 1),
+('Café Torrado e Moído', 'Fardo com 10 caixas de vácuo de 500g extra forte', 105.00, 150.00, 2, 3, 'alimentos', 'cx', 1),
+('Azeite de Oliva Extra Virgem', 'Garrafa de vidro de 1 litro', 28.00, 45.50, 8, 5, 'alimentos', 'litro', 1),
+
+-- Testando Categoria: vestuario | Unidades: un, pct
+('Camiseta Algodão Preta', 'Camiseta básica 100% algodão fio 30.1 penteado', 14.00, 39.90, 50, 15, 'vestuario', 'un', 1),
+('Kit Meias Esportivas', 'Pacote com 3 pares de meias brancas cano médio', 9.50, 24.90, 30, 8, 'vestuario', 'pct', 1),
+
+-- Testando Categoria: outros | Unidades: un, litro, cx, pct
+('Detergente Neutro Líquido', 'Frasco plástico de 500ml', 1.30, 2.20, 3, 12, 'outros', 'un', 1), -- Aqui vai acionar o alerta de estoque baixo (3 <= 12)
+('Desinfetante Lavanda', 'Galão de 5 litros concentrado', 12.00, 22.50, 6, 2, 'outros', 'litro', 1),
+('Caixa de Parafusos', 'Caixa com 100 unidades de parafusos Philips 4.5x40mm', 8.50, 16.00, 0, 5, 'outros', 'cx', 1), -- Sem estoque (0 <= 5)
+('Papel Toalha Duplo', 'Pacote com 2 rolos de alta absorção', 3.40, 5.50, 18, 6, 'outros', 'pct', 1);

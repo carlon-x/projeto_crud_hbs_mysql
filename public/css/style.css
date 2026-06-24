@@ -363,3 +363,67 @@ tr:hover td {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   Estilos Adicionais para o Sistema de Estoque de Produtos
+   ========================================================================== */
+
+/* Coloca o preço de custo e o preço de venda lado a lado em telas grandes */
+.linha-campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+/* Deixa o campo de descrição (textarea) com o mesmo visual dos inputs */
+.campo textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  background: #ffffff;
+  resize: vertical;
+}
+
+.campo textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Dá um tom acinzentado e uma linha riscada para produtos desativados */
+.produto-inativo {
+  opacity: 0.6;
+  background: #f9fafb;
+}
+
+.produto-inativo td strong {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+/* Pequeno texto explicativo de apoio (usado abaixo do nome do produto) */
+.texto-mutado {
+  color: #6b7280;
+  font-weight: normal;
+}
+
+/* Estilização para o texto de status do estoque */
+.status-estoque {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Pequena etiqueta moderna para mostrar as categorias na tabela */
+.etiqueta-categoria {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #eff6ff;
+  color: #1e40af;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+

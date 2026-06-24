@@ -1,10 +1,9 @@
+require('dotenv').config(); // Garante o carregamento das variáveis de ambiente do seu arquivo .env
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
 const session = require('express-session');
-
-const usuarioRoutes = require('./routes/usuarioRoutes');
-
+const produtoRoutes = require('./routes/produtoRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,7 +12,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 
-// Helpers simples para marcar opções no formulário
+// Helpers para marcar opções no formulário de produtos
 hbs.registerHelper('selecionado', (valorAtual, valorEsperado) => {
   return valorAtual === valorEsperado ? 'selected' : '';
 });
@@ -22,21 +21,9 @@ hbs.registerHelper('radioMarcado', (valorAtual, valorEsperado) => {
   return valorAtual === valorEsperado ? 'checked' : '';
 });
 
+// Ajustado para aceitar tanto booleano quanto o formato numérico 1 ou 0 do MySQL
 hbs.registerHelper('checkboxMarcado', (valorAtual) => {
-  return valorAtual ? 'checked' : '';
-});
-
-hbs.registerHelper('checkboxListaMarcado', (lista, valorEsperado) => {
-  if (!lista) {
-    return '';
-  }
-
-  if (Array.isArray(lista)) {
-    return lista.includes(valorEsperado) ? 'checked' : '';
-  }
-
-  const itens = String(lista).split(',').map((item) => item.trim());
-  return itens.includes(valorEsperado) ? 'checked' : '';
+  return valorAtual === 1 || valorAtual === true ? 'checked' : '';
 });
 
 // Arquivos estáticos
@@ -63,19 +50,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rota inicial
+// Rota inicial redireciona direto para o estoque de produtos
 app.get('/', (req, res) => {
-  res.redirect('/usuarios');
+  res.redirect('/produtos');
 });
 
-// Rotas da interface gráfica com HBS
-app.use('/usuarios', usuarioRoutes);
+// Rotas da interface gráfica vinculadas ao estoque
+app.use('/produtos', produtoRoutes);
 
 // Página não encontrada
 app.use((req, res) => {
   return res.status(404).render('erro', {
     titulo: 'Página não encontrada',
-    mensagem: 'A página solicitada não foi encontrada.'
+    mensagem: 'A página solicitada não foi encontrada no sistema de estoque.'
   });
 });
 
