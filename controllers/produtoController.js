@@ -29,24 +29,26 @@ function validarProduto(dadosProduto) {
     return 'As quantidades de estoque não podem ser negativas.';
   }
 
-  return null;
+    return null;
 }
 
 // Prepara e formata os dados brutos para exibição amigável na página de listagem
 function prepararParaListagem(produto) {
   const formatadorMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-  
-  // Verifica se o estoque atingiu o nível crítico
   const precisaRepor = produto.estoque_atual <= produto.estoque_minimo;
+  
+  // Nova verificação: devolve true se houver prejuízo comercial
+  const prejuizo = parseFloat(produto.preco_venda) < parseFloat(produto.preco_custo);
 
   return {
     ...produto,
     precoCustoFormatado: formatadorMoeda.format(produto.preco_custo),
     precoVendaFormatado: formatadorMoeda.format(produto.preco_venda),
     estoqueTexto: `${produto.estoque_atual} ${produto.unidade_medida}`,
-    statusEstoque: precisaRepor ? '⚠️ Estoque Baixo / Repor' : '✅ Regular',
-    categoriaTexto: produto.categoria.charAt(0).toUpperCase() + produto.categoria.slice(1), // Capitaliza a palavra
-    ativoTexto: produto.ativo ? 'Sim' : 'Não'
+    statusEstoque: precisaRepor ? '⚠️ Estoque Baixo' : '✅ Regular',
+    categoriaTexto: produto.categoria ? produto.categoria.charAt(0).toUpperCase() + produto.categoria.slice(1) : '',
+    ativoTexto: produto.ativo ? 'Sim' : 'Não',
+    temPrejuizo: prejuizo // Passa a informação para o HTML de forma mastigada
   };
 }
 
@@ -107,14 +109,21 @@ module.exports = {
       });
     }
 
-    try {
-      await Produto.criar(dadosProduto);
-      definirMensagem(req, 'Produto adicionado ao estoque com sucesso.');
-      return res.redirect('/produtos');
-    } catch (err) {
-      return renderizarErro(res, err);
+     try {
+    await Produto.criar(dadosProduto);
+    
+    // Se houver prejuízo, salva um aviso na sessão, mas PERMITE a gravação
+    if (dadosProduto.preco_venda < dadosProduto.preco_custo) {
+      req.session.mensagem = 'Produto gravado com sucesso! (Aviso: Preço de venda menor que o custo).';
+    } else {
+      req.session.mensagem = 'Produto adicionado ao estoque com sucesso.';
     }
-  },
+
+    return res.redirect('/produtos');
+  } catch (err) {
+    return renderizarErro(res, err);
+  }
+},
 
   // Busca um produto específico e abre o formulário preenchido para edição
   async formEditar(req, res) {
@@ -152,13 +161,20 @@ module.exports = {
       });
     }
 
-    try {
-      await Produto.atualizar(req.params.id, dadosProduto);
-      definirMensagem(req, 'Produto atualizado com sucesso.');
-      return res.redirect('/produtos');
-    } catch (err) {
-      return renderizarErro(res, err);
+     try {
+    await Produto.atualizar(req.params.id, dadosProduto);
+    
+    // Alerta de prejuízo sem bloquear
+    if (dadosProduto.preco_venda < dadosProduto.preco_custo) {
+      req.session.mensagem = 'Produto atualizado com sucesso! (Aviso: Preço de venda menor que o custo).';
+    } else {
+      req.session.mensagem = 'Produto atualizado com sucesso.';
     }
+
+    return res.redirect('/produtos');
+  } catch (err) {
+    return renderizarErro(res, err);
+  }
   },
 
   // Remove o produto definitivamente do estoque

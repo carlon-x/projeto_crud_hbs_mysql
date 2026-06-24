@@ -42,7 +42,12 @@
             </td>
             <td><span class="etiqueta-categoria">{{categoriaTexto}}</span></td>
             <td>{{precoCustoFormatado}}</td>
-            <td>{{precoVendaFormatado}}</td>
+            <td>
+  {{precoVendaFormatado}}
+  {{#if temPrejuizo}}
+    <br><small style="color: #dc2626; font-weight: bold;" title="Produto sendo vendido abaixo do preço de custo!">⚠️ Margem   Negativa</small>
+  {{/if}}
+</td>
             <td>
               <!-- Usa a string já formatada pelo controlador (Ex: "10 un") -->
               <strong>{{estoqueTexto}}</strong>
